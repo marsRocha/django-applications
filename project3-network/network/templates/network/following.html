@@ -1,0 +1,22 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div class="m-4">
+    <div style="max-width: 700px; margin: auto; color: #536471; margin-bottom: 3rem;">
+        <h1 style="color: black;"><b>Following</b></h1>
+    </div>
+    <hr>
+    <ul id="pagination" class="pagination" style="margin: 1rem 0; justify-content: center;"></ul>
+    <ul id="posts" class="posts" style="justify-content: center; padding-left: 0;"></ul>
+</div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'network/utils.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            load_posts(1, "followed")
+        });
+    </script>
+{% endblock %}

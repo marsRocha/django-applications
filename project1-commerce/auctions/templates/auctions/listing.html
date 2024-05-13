@@ -1,0 +1,144 @@
+{% extends "auctions/layout.html" %}
+
+
+{% block body %}
+    {% if user.is_authenticated and listing.active and bid_error %}
+        <div class="page-main card-text">
+            {% if listing.current_bid %}
+                <div class="alert alert-warning" role="alert">Your bid must be bigger than EUR {{ listing.current_bid|default:listing.starting_bid }}</div>
+            {% else %}
+                <div class="alert alert-warning" role="alert">Your bid must be equal or bigger than EUR {{ listing.current_bid|default:listing.starting_bid }}</div>
+            {% endif %}
+        </div>
+    {% endif %}
+    <div class="row page-main" style="height: 600px">
+        <div class="col-sm-5 listing_cover">
+            <img src="{{ listing.image }}">
+        </div>
+        <div class="col-sm-5">
+            <div>
+                <h3>{{ listing.title }}</h3>
+            </div>
+            <hr>
+            <div style="height: 250px; display: flex;">
+                <div style="display: flex; align-items: center;">
+                    <div>
+                        {% if listing.current_bid is None %}
+                            <span>Starting bid</span>
+                            <p><b style=" font-size: 25px; ">EUR {{ listing.starting_bid|floatformat:2 }}</b></p>
+                        {% else %}
+                            {% if user.is_authenticated and is_my_bid and listing.active %}
+                                <span style="color: #0053a0;"><b>You are the current bid!</b></span>
+                            {% elif listing.active %}
+                                <span>Current bid</span>
+                            {% elif not listing.active %}
+                                <span>Sold!</span>
+                            {% endif %}
+                            <p style="margin-bottom: 0;"><b style=" font-size: 25px; ">EUR {{ listing.current_bid|floatformat:2 }}</b></p>
+                            <p><span>Starting bid was EUR {{ listing.starting_bid|floatformat:2 }}</span></p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; margin: auto;">
+                    {% if listing.active %}
+                        {% if user.is_authenticated %}
+                            {% if listing.author == request.user %}
+                                <form action="{% url 'close' listing.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input class="round-button" type="submit" value="Close listing">
+                                </form>
+                            {% else %}
+                                <form action="{% url 'bid' listing.id %}" method="post">
+                                    {% csrf_token %}
+                                    <p style="margin-bottom: 0;"><label for="offer">Place your bid here</label></p>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                                        <input id="input-bid" type="number" step="0.01" id="offer" name="offer" placeholder="Bid">
+                                        <input class="round-button" type="submit" value="Place Bid">
+                                    </div>
+                                </form>
+                            {% endif %}
+                        {% else %}
+                            <span>Log in to place bid</span>
+                        {% endif %}
+                    {% elif not listing.active %}
+                        {% if user.is_authenticated and listing.buyer == request.user %}
+                            <span> Congratulations! You have won the auction.</span>
+                        {% else %}
+                            <span>This listing has been sold to <b><i>{{ listing.buyer.username }}</i></b>.</span>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            <hr>
+            <h5>About this item</h5>
+            <p>{{ listing.description }}</p>
+        </div>
+        <div class="col-sm-2">
+            <div id="details-container">
+                <div id="info">
+                    <h5>Details</h5>
+                    <p>Published on&emsp;<i><b>{{ listing.date_published }}</b></i></p>
+                    <p>Listed by&emsp;<i><b>{{ listing.author }}</b></i></p>
+
+                    {% if listing.category is None %}
+                        <p>Category&emsp;<i><b>No Category Listed</b></i></p>
+                    {% else %}
+                        <p>Category&emsp;<i><b>{{ listing.category }}</b></i></p>
+                    {% endif %}
+
+                    {% if listing.active %}
+                    <p>Status&emsp;<i><b>Active</b></i></p>
+                    {% else %}
+                    <p>Status&emsp;<i><b>Closed</b></i></p>
+                    {% endif %}
+                </div>
+                {% if user.is_authenticated %}
+                <hr>
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <form action="{% url 'watchlist_update' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="listing_id" value="{{ listing.id }}">
+                            {% if is_watched %}
+                            <input class="round-button" type="submit" value="Remove from watchlist">
+                            {% else %}
+                            <input class="round-button" type="submit" value="Add to watchlist">
+                            {% endif %}
+                        </form>
+                    </div>    
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="page-main">
+        <hr>
+        <h4 class="page-title">Comments</h4>
+        <ul id="comments-ul">
+            {% for comment in comments %}
+            <li>
+                <div>
+                    <h5 style=" margin-bottom: 0;">{{ comment.author.username }}</h5>
+                    <p><span style="font-size: 14px;">{{ comment.date_published }}</span></p>
+                    <p>{{ comment.message }}</p>
+                    <hr>
+                </div>
+            </li>
+            {% empty %}
+            <li style="margin-bottom: 2rem;">
+                <i>This listing has no comments</i>
+            </li>
+            {% endfor %}
+        </ul>
+        <div id="comment-form">
+            <h5>Add a comment</h5>
+            {% if user.is_authenticated %}
+                <form action="{% url 'comment' listing.id %}" method="post" style="padding-left: 40px;">
+                    {% csrf_token %}
+                    <textarea type="text" name="message"></textarea>
+                    <p><input class="round-button" type="submit" value="Submit"></p>
+                </form>
+            {% else %}
+                <span style="padding-left: 40px;">Log in to comment on this listing</span>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

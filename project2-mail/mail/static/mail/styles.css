@@ -1,0 +1,32 @@
+textarea {
+    min-height: 400px;
+}
+
+.email-container{
+    border: 1px solid rgb(223, 222, 222);
+    border-radius: .5rem;
+    padding: 1rem;
+    margin-bottom: 1px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.read {
+    background-color: rgb(223, 222, 222);
+}
+
+.right {
+    text-align: right;
+}
+
+.email-sender-card{
+    font-weight: bold;
+}
+
+#email-body {
+    background-color: transparent;
+    border: 0;
+    border-color: 0;
+    outline: 0;
+    box-shadow: none;
+}

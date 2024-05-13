@@ -1,0 +1,135 @@
+body {
+    padding: 10px;
+}
+
+.page-main {
+    margin: 0 2rem;
+}
+
+.page-title {
+    margin-bottom: 2rem;
+}
+
+.field{
+    display: flex;
+    align-items: center;
+    width: 96%;
+}
+
+.field_description{
+    min-width: 200px;
+}
+
+.input_field{
+    width: 40%;
+}
+
+.small input{
+    width: 25%;
+    margin: 2px 0;
+}
+
+.big input{
+    width: 100%;
+    margin: 2px 0;
+}
+
+.input_field textarea {
+    width: 910px;
+    height: 200px;
+}
+
+.submit_listing_container{
+    padding: 2rem;
+    border: 1px #D5D9D9 solid;
+    border-radius: 8px;
+    background-color: #f3f3f3;
+    width: 100%;
+    text-align: right;
+}
+
+.submit_listing_container .round-button{
+    padding: .6rem 2rem;
+    font-size: 20px;
+}
+
+.round-button {
+    overflow: visible;
+    background-color: #0053a0;
+    border-radius: 1rem;
+    padding: 0.3rem 1rem;
+    color: white;
+    border: 0;
+}
+
+.listing_cover {
+    max-height: 100%;
+}
+
+.limit_height {
+    max-height: 200px;
+}
+
+.listing_cover img {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    max-width: 100%;
+    height: 100%;
+    object-fit: contain;
+    overflow: hidden;
+}
+
+.listing_info a {
+    color: #0053a0;
+    text-decoration: none;
+}
+
+.listing_info h5 {
+    margin-bottom: 1rem;
+}
+
+#details-container {
+    border: 1px #D5D9D9 solid;
+    border-radius: 8px;
+    padding: 14px 18px;
+}
+
+#details-container #info, h5 {
+    margin-bottom: 2rem;
+}
+
+#comments-ul {
+    list-style-type: none;
+}
+
+#comments-ul div {
+    width: 70%;
+}
+
+#comment-form {
+    margin-bottom: 5rem;
+}
+
+#comment-form h5{
+    margin-bottom: 2rem;
+}
+
+#comment-form textarea {
+    width: 70%;
+    height: 100px;
+    margin-bottom: 1rem;
+}
+
+#input-bid {
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-bottom-style: groove;
+    background-color: #eee;
+
+    border: 1px #D5D9D9 solid;
+    border-radius: 2rem;
+    margin-right: 1rem;
+    padding-left : 1rem;
+}

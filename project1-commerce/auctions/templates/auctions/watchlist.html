@@ -1,0 +1,48 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="page-main">
+    <h2 class="page-title">My Watchlist</h2>
+
+    <ul style="list-style-type: none; margin: 2rem;">
+        {% for listing in listings %}
+            <li>
+                <div class="row" style="min-height: 200px;">
+                    <div class="col-sm-4 listing_cover limit_height">
+                        <img src="{{ listing.image }}">
+                    </div>
+                    <div class="col-sm-8 listing_info">
+                        <a href="{% url 'listing' listing.id %}"><h5>{{ listing.title }}</h5></a>
+                        <div class="row" style="height: 80%;">
+                            <div class="col-sm-3"> 
+                                <h4>
+                                    {% if listing.current_bid is None %}
+                                        <b>EUR {{ listing.starting_bid|floatformat:2 }}</b>
+                                    {% else %}
+                                        <b>EUR {{ listing.current_bid|floatformat:2 }}</b>
+                                    {% endif %}
+                                </h4>
+                                <div style="position: absolute; bottom: 0px;">
+                                    {% if listing.active %}
+                                        <p style="margin-bottom: 0;">Status&emsp;<i><b>Active</b></i></p>
+                                    {% else %}
+                                        <p style="margin-bottom: 0;">Status&emsp;<i><b>Closed</b></i></p>
+                                    {% endif %}
+                                    <p style="margin-bottom: 0;">Category&emsp;<i><b>{{ listing.category }}</b></i></p>
+                                    <span>Listed by&emsp;<i><b>{{ listing.author.username }}</b></i></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-9 listing_info">
+                                <span>{{ listing.description }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </li>
+        {% empty %}
+            <i>You have no listings on your watchlist</i>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

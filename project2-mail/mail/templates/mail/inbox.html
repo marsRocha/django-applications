@@ -1,0 +1,71 @@
+{% extends "mail/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <h2>{{ request.user.email }}</h2>
+
+    <button class="btn btn-sm btn-outline-primary" id="inbox">Inbox</button>
+    <button class="btn btn-sm btn-outline-primary" id="compose">Compose</button>
+    <button class="btn btn-sm btn-outline-primary" id="sent">Sent</button>
+    <button class="btn btn-sm btn-outline-primary" id="archived">Archived</button>
+    <a class="btn btn-sm btn-outline-primary" href="{% url 'logout' %}">Log Out</a>
+    <hr>
+
+    <div id="emails-view">
+    </div>
+
+    <div id="compose-view">
+        <h3>New Email</h3>
+        <form id="compose-form">
+            <div class="form-group">
+                From: <input disabled class="form-control" value="{{ request.user.email }}">
+            </div>
+            <div class="form-group">
+                To: <input id="compose-recipients" class="form-control" value="marcio@marcio.edu">
+            </div>
+            <div class="form-group">
+                <input class="form-control" id="compose-subject" value="Subject">
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" id="compose-body">yes</textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+
+    <div id="email-view">
+        <form>
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="form-group">
+                        <b>From:</b> <span id="email-sender"></span>
+                    </div>
+                    <div class="form-group">
+                        <b>To:</b> <span id="email-recipients"></span>
+                    </div>
+                    <div class="form-group">
+                        <b>Subject:</b> <span id="email-subject"></span>
+                    </div>
+                    <div class="form-group">
+                        <b>Timestamp:</b> <span id="email-timestamp"></span>
+                    </div>
+                </div>
+                <div class="col-sm-3" style="text-align: right;">
+                    <div class="btn btn-sm btn-outline-primary">
+                        <span id="email-reply">Reply</span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <textarea readonly class="form-control"  id="email-body"></textarea>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'mail/inbox.js' %}"></script>
+{% endblock %}
